@@ -1,22 +1,26 @@
-/**
- * @param {string} s
- * @return {boolean}
- */
-var isPalindrome = function (s) {
+var characterReplacement = function (s, k) {
+  let n = s.length;
   let left = 0;
-  let right = s.length - 1;
+  let maxf = 0; // max frequency of any char in current window
+  let maxLen = 0;
+  let hash = new Array(26).fill(0);
 
-  while (left < right) {
-    if (!/[a - zA - Z0 - 9]/i.test(s[left])) left++;
-    if (!/[a - zA - Z0 - 9]/i.test(s[right])) right--;
+  for (let right = 0; right < n; right++) {
+    // Increment the frequency of the current character
+    let idx = s[right].charCodeAt(0) - 65;
+    hash[idx]++;
+    maxf = Math.max(maxf, hash[idx]);
 
-    if (s[left].toLowerCase() != s[right].toLowerCase()) {
-      return false;
-    } else {
+    // Shrink window if more than k replacements needed
+    while (right - left + 1 - maxf > k) {
+      let leftIdx = s[left].charCodeAt(0) - 65;
+      hash[leftIdx]--;
       left++;
-      right--;
     }
+
+    // Update max length
+    maxLen = Math.max(maxLen, right - left + 1);
   }
 
-  return true;
+  return maxLen;
 };
