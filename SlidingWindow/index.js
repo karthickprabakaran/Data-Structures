@@ -2,7 +2,7 @@
 
 // NOTE: Brute : Checking for all the possible combinations
 
-var maxProfit = function (prices) {
+var maxProfit = function(prices) {
   let n = prices.length;
 
   let max = 0;
@@ -20,18 +20,18 @@ var maxProfit = function (prices) {
 // NOTE: Optimal : Technicall an two pointer 
 
 
-  let n = prices.length;
+let n = prices.length;
 
-  let max = 0;
-  let currentLowest = prices[0];
+let max = 0;
+let currentLowest = prices[0];
 
-  for (let i = 0; i < n; i++) {
-    if (prices[i] < currentLowest) currentLowest = prices[i];
+for (let i = 0; i < n; i++) {
+  if (prices[i] < currentLowest) currentLowest = prices[i];
 
-    max = Math.max(max, prices[i] - currentLowest);
-  }
+  max = Math.max(max, prices[i] - currentLowest);
+}
 
-  return max;
+return max;
 };
 
 
@@ -63,7 +63,7 @@ function isUnique(s, start, end) {
 
 // NOTE: Optimal using the sliding window approach
 
-var lengthOfLongestSubstring = function (s) {
+var lengthOfLongestSubstring = function(s) {
   let left = 0;
   let right = 0;
   let max = 0;
@@ -91,7 +91,7 @@ var lengthOfLongestSubstring = function (s) {
 
 
 
-var characterReplacement = function (s, k) {
+var characterReplacement = function(s, k) {
   let n = s.length;
 
   let max = 0;
@@ -115,7 +115,7 @@ var characterReplacement = function (s, k) {
 
 
 
-var characterReplacement = function (s, k) {
+var characterReplacement = function(s, k) {
   let n = s.length;
   let left = 0;
   let maxf = 0; // max frequency of any char in current window
@@ -141,6 +141,74 @@ var characterReplacement = function (s, k) {
 
   return maxLen;
 };
+
+
+
+// HACK: 4.  minimum winow substring
+
+
+// NOTE: Bruteforce approach
+
+var minWindow = function (s, t) {
+  function containsAll(str) {
+    let first = new Array(128).fill(0);
+    let second = new Array(128).fill(0);
+
+    for (let char of str) {
+      first[char.charCodeAt(0)]++;
+    }
+    for (let char of t) {
+      second[char.charCodeAt(0)]++;
+    }
+
+    for (let i = 0; i < first.length; i++) {
+      if (first[i] < second[i]) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  let max = "";
+
+  for (let i = 0; i < s.length; i++) {
+    for (let j = i; j < s.length; j++) {
+      let str = s.slice(i, j + 1);
+      if (containsAll(str) && (max === "" || str.length < max.length)) {
+        max = str;
+      }
+    }
+  }
+
+  return max;
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
