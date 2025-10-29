@@ -1,18 +1,20 @@
 /**
- * @param {string} s
- * @param {string} t
- * @return {string}
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
  */
-var minWindow = function (s, t) {
-  console.log("this is the given string S", s);
-  console.log("this is the given string T", t);
+/**
+ * @param {ListNode} head
+ * @return {ListNode}
+ */
+var reverseList = function (head) {
+  if (head == null || head.next == null) return head;
+
+  let newHead = reverseList(head.next);
+  head.next.next = head;
+  head.next = null;
+
+  return newHead;
 };
-
-let str = "coznstasdad";
-
-let t = "con";
-
-let res = minWindow(str, t);
-
-console.log("this is the result");
-console.log(res.length);

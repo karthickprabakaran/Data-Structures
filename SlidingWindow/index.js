@@ -184,8 +184,58 @@ var minWindow = function (s, t) {
   return max;
 };
 
+// NOTE: Optimal 
 
+var minWindow = function(s, t) {
+    if (s.length === 0 || t.length === 0) return "";
 
+    // Count characters in t
+    const need = new Array(128).fill(0);
+    for (let ch of t) {
+        need[ch.charCodeAt(0)]++;
+    }
+
+    const have = new Array(128).fill(0);
+    let left = 0, right = 0;
+    let formed = 0;
+
+    // Count how many unique characters in t we need to match
+    let required = 0;
+    for (let i = 0; i < 128; i++) {
+        if (need[i] > 0) required++;
+    }
+
+    let minLen = Infinity, minStart = 0;
+
+    while (right < s.length) {
+        const rChar = s[right];
+        have[rChar.charCodeAt(0)]++;
+
+        // Check if current character meets required count
+        if (have[rChar.charCodeAt(0)] === need[rChar.charCodeAt(0)]) {
+            formed++;
+        }
+
+        // Shrink window from left while it's valid
+        while (formed === required) {
+            if (right - left + 1 < minLen) {
+                minLen = right - left + 1;
+                minStart = left;
+            }
+
+            const lChar = s[left];
+            have[lChar.charCodeAt(0)]--;
+            if (have[lChar.charCodeAt(0)] < need[lChar.charCodeAt(0)]) {
+                formed--;
+            }
+            left++;
+        }
+
+        right++;
+    }
+
+    return minLen === Infinity ? "" : s.slice(minStart, minStart + minLen);
+};
 
 
 
